@@ -1,0 +1,56 @@
+* {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+#overlay {
+    /* display: none; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#ctrls {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 15%;
+    height: 100%;
+    background-color: #33333388;
+}
+
+#cont {
+    box-sizing: border-box;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+#hex-table {
+    border-collapse: collapse;
+    padding-left: 29px;
+}
+
+#hex-table td:nth-child(2n) {
+    position: relative;
+    top: 50px;
+}
+
+#hex-table td:not(:first-child) {
+    position: relative;
+    left: -29px;
+}
+
+
+.hex {
+    position: absolute;
+    width: 116px; /*58 px na środek i po 29 na bokach*/
+    height: 100px;
+    background-image: url('/img/hex.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+}
