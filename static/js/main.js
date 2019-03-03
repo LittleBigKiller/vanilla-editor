@@ -20,5 +20,5 @@ $(document).ready(function () {
     $('#ctrl-hex-select').on('input', function () {
         createTiles(this.value)
     })
-    createTiles($('#ctrl-hex-select').val)
+    createTiles($('#ctrl-hex-select').val())
 })
