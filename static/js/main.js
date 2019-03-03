@@ -10,14 +10,15 @@ function createTiles(amount) {
             } else {
                 div.css('top', j * 100 + 50)
             }
-            div.html('0')
+            div.html('^<br>0')
             $('#cont').append(div)
         }
     }
 }
 
 $(document).ready(function () {
-    $('#ctrl-hex-select').on('change', function () {
+    $('#ctrl-hex-select').on('input', function () {
         createTiles(this.value)
     })
+    createTiles($('#ctrl-hex-select').val)
 })

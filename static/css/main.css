@@ -4,6 +4,7 @@
     overflow: hidden;
 }
 
+
 #overlay {
     /* display: none; */
     position: fixed;
@@ -29,21 +30,6 @@
     height: 100vh;
 }
 
-#hex-table {
-    border-collapse: collapse;
-    padding-left: 29px;
-}
-
-#hex-table td:nth-child(2n) {
-    position: relative;
-    top: 50px;
-}
-
-#hex-table td:not(:first-child) {
-    position: relative;
-    left: -29px;
-}
-
 
 .hex {
     position: absolute;
@@ -52,5 +38,8 @@
     background-image: url('/img/hex.png');
     background-size: contain;
     background-repeat: no-repeat;
-    
+    color: #ffffff;
+    text-align: center;
+    font-size: 2em;
+    font-weight: bolder;
 }
