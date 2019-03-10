@@ -1,3 +1,6 @@
+console.log('loader.js loaded')
+console.log('----------------')
+
 var net
 var main
 

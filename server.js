@@ -5,7 +5,7 @@ var bodyParser = require("body-parser")
 var app = express()
 const PORT = 5500;
 
-var level = null
+var saved = null
 
 app.use(express.static('static'))
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -16,6 +16,12 @@ app.listen(PORT, function () {
 
 app.post('/SEND-LVL', function(req, res){
     console.log('-----------------------------------------------------')
-    level = req.body.level
-    console.log(level)
+    saved = req.body
+    console.log(saved)
+})
+
+app.post('/LOAD-LVL', function(req, res){
+    console.log('-----------------------------------------------------')
+    res.send(saved)
+    console.log('sent level data')
 })
