@@ -90,6 +90,13 @@ button:active {
     font-weight: bolder;
     cursor: pointer;
 }
+.testHex {
+    overflow: visible;
+    position: absolute;
+    width: 58px;
+    height: 100px;
+    background-color: red;
+}
 
 .active, .active:hover {
     border-color: #88dd33;
