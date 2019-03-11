@@ -5,7 +5,7 @@ var bodyParser = require("body-parser")
 var app = express()
 const PORT = 5500;
 
-var saved = null
+var saved = { size: "2"}
 
 app.use(express.static('static'))
 app.use(bodyParser.urlencoded({ extended: true }))

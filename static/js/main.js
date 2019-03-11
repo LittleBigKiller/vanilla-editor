@@ -89,6 +89,7 @@ class Main {
                 break
             }
         }
+        $('#data').html('<pre>' + JSON.stringify(main.pack, null, '  ') + '</pre>')
         
     }
 
