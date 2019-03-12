@@ -25,6 +25,7 @@ button:active {
 
 #overlay {
     /* display: none; */
+    z-index: 69;
     position: fixed;
     top: 0;
     left: 0;
@@ -79,23 +80,40 @@ button:active {
 
 .hex {
     position: absolute;
-    width: 116px; /*58 px na środek i po 29 na bokach*/
+    /* width: 116px; /*58 px na środek i po 29 na bokach
     height: 100px;
     background-image: url('/img/hex.png');
     background-size: contain;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
+    width: 58px;
+    height: 100px;
     color: #ffffff;
     text-align: center;
     font-size: 2em;
     font-weight: bolder;
     cursor: pointer;
+    overflow: visible;
+    z-index: 2;
+    pointer-events: none;
 }
 .testHex {
+    z-index: -1;
     overflow: visible;
     position: absolute;
     width: 58px;
     height: 100px;
-    background-color: red;
+    background-color: #888888;
+    pointer-events: all;
+}
+.hexText {
+    z-index: 2;
+    overflow: visible;
+    position: absolute;
+    color: white;
+    text-align: center;
+    width: 58px;
+    height: 100px;
+    pointer-events: all;
 }
 
 .active, .active:hover {

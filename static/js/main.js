@@ -14,6 +14,7 @@ class Main {
 
     init() {
         this.ctrlsInit()
+        $('#data').html('<pre>' + JSON.stringify(this.pack, null, '  ') + '</pre>')
     }
     
     ctrlsInit() {
@@ -79,7 +80,21 @@ class Main {
             this.hex.dirOut = 0
         }    
         this.style.transform = 'rotate(' + 60 * this.hex.dirOut + 'deg)'
-        this.innerHTML = '^<br>' + this.hex.dirOut
+        this.children[3].innerHTML = '^<br>' + this.hex.dirOut
+        switch (main.type) {
+            case 'wall':
+                $(this).children('.testHex').css('backgroundColor', '#3388dd')
+            break
+            case 'enemy':
+                $(this).children('.testHex').css('backgroundColor', '#dd3333')
+            break
+            case 'treasure':
+                $(this).children('.testHex').css('backgroundColor', '#dd8833')
+            break
+            case 'light':
+                $(this).children('.testHex').css('backgroundColor', '#dddd33')
+            break
+        }
         main.nextIn = (this.hex.dirOut + 3) % 6
         for (let i in main.pack.level) {
             let dataPack = main.pack.level[i]
@@ -108,9 +123,10 @@ class Main {
             main.hexes[dataPack.id].z = parseInt(dataPack.z)
             main.hexes[dataPack.id].dirOut = parseInt(dataPack.dirOut)
             main.hexes[dataPack.id].dirIn = parseInt(dataPack.dirIn)
-            main.hexes[dataPack.id].type = parseInt(dataPack.type)
+            main.hexes[dataPack.id].type = dataPack.type
             main.hexes[dataPack.id].setup()
         }
+        $('#data').html('<pre>' + JSON.stringify(main.pack, null, '  ') + '</pre>')
     }
 }
 
