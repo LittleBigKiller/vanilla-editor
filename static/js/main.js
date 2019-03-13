@@ -14,7 +14,6 @@ class Main {
 
     init() {
         this.ctrlsInit()
-        $('#data').html('<pre>' + JSON.stringify(this.pack, null, '  ') + '</pre>')
     }
     
     ctrlsInit() {
@@ -37,6 +36,10 @@ class Main {
             main.clearTypes()
             this.className = 'active'
         })
+
+        $('#ctrl-rungame').on('click', function() {
+            window.location = '/game'
+        })
     }
 
     clearTypes() {
@@ -58,6 +61,7 @@ class Main {
                 $('#cont').append(hex.object)
             }
         }
+        $('#data').html('<pre>' + JSON.stringify(this.pack, null, '  ') + '</pre>')
     }
 
     hexClick() {
@@ -89,7 +93,7 @@ class Main {
                 $(this).children('.testHex').css('backgroundColor', '#dd3333')
             break
             case 'treasure':
-                $(this).children('.testHex').css('backgroundColor', '#dd8833')
+                $(this).children('.testHex').css('backgroundColor', '#88dd33')
             break
             case 'light':
                 $(this).children('.testHex').css('backgroundColor', '#dddd33')

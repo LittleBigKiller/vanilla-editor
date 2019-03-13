@@ -26,3 +26,7 @@ app.post('/LOAD-LVL', function(req, res){
     res.send(saved)
     console.log('sent level data')
 })
+
+app.get('/game', function(req, res){
+    res.sendFile(__dirname + '/static/game.html')
+})

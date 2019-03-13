@@ -7,9 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
     <script src="libs/jquery331.js"></script>
+    <script src="libs/OrbitControls.js"></script>
+    <script src="libs/three.js"></script>
     <script src="js/net.js"></script>
     <script src="js/hex.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/settings.js"></script>
     <script src="js/loader.js"></script>
 </head>
 <body>
@@ -33,6 +36,9 @@
             <div id="ctrl-srv" class="ctrl-block">
                 <button id="ctrl-send">save on server</button>
                 <button id="ctrl-load">load from server</button>
+            </div>
+            <div class="ctrl-block">
+                <button id="ctrl-rungame">run game</button>
             </div>
             <div id="ctrl-types" class="ctrl-block">
                 <button id="ctrl-type0" class="active">wall</button>
