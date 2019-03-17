@@ -68,6 +68,7 @@ button:active {
     background-color: #11111188;
     overflow: hidden auto;
     color: #ffffff;
+    white-space: pre;
 }
 
 #cont {

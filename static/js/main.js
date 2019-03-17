@@ -61,11 +61,10 @@ class Main {
                 $('#cont').append(hex.object)
             }
         }
-        $('#data').html('<pre>' + JSON.stringify(this.pack, null, '  ') + '</pre>')
+        $('#data').html('<pre>' + JSON.stringify(this.pack, null, 2) + '</pre>')
     }
 
     hexClick() {
-        console.log(this.hex.dirOut)
         if (this.hex.dirOut == -1) {
             this.hex.dirIn = main.nextIn
             let dataPack = {}
@@ -108,7 +107,7 @@ class Main {
                 break
             }
         }
-        $('#data').html('<pre>' + JSON.stringify(main.pack, null, '  ') + '</pre>')
+        $('#data').html('<pre>' + JSON.stringify(main.pack, null, 2) + '</pre>')
         
     }
 
@@ -117,20 +116,25 @@ class Main {
     }
 
     loadLevel(data) {
-        console.log(data)
-        main.pack.size = data.size
-        this.createTiles()
-        main.pack.level = data.level
-        for (let i in data.level) {
-            let dataPack = data.level[i]
-            main.hexes[dataPack.id].x = parseInt(dataPack.x)
-            main.hexes[dataPack.id].z = parseInt(dataPack.z)
-            main.hexes[dataPack.id].dirOut = parseInt(dataPack.dirOut)
-            main.hexes[dataPack.id].dirIn = parseInt(dataPack.dirIn)
-            main.hexes[dataPack.id].type = dataPack.type
-            main.hexes[dataPack.id].setup()
+        if (data != null) {
+            main.pack.size = data.size
+            main.createTiles()
+            main.pack.level = data.level
+            for (let i in data.level) {
+                let dataPack = data.level[i]
+                main.hexes[dataPack.id].x = parseInt(dataPack.x)
+                main.hexes[dataPack.id].z = parseInt(dataPack.z)
+                main.hexes[dataPack.id].dirOut = parseInt(dataPack.dirOut)
+                main.hexes[dataPack.id].dirIn = parseInt(dataPack.dirIn)
+                main.hexes[dataPack.id].type = dataPack.type
+                main.hexes[dataPack.id].setup()
+            }
+            $('#data').html('<pre>' + JSON.stringify(main.pack, null, 2) + '</pre>')
+        } else {
+            main.pack.size = 2
+            main.createTiles()
+            $('#data').html('<pre>' + JSON.stringify(main.pack, null, 2) + '</pre>')
         }
-        $('#data').html('<pre>' + JSON.stringify(main.pack, null, '  ') + '</pre>')
     }
 }
 

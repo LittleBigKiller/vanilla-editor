@@ -6,8 +6,6 @@ class Net {
     }
 
     sendLvl(pack) {
-        console.log('net.sendLvl')
-        console.log(main.pack),
         $.ajax({
             url: '/SEND-LVL',
             data: {
@@ -26,18 +24,35 @@ class Net {
     }
 
     loadLvl() {
-        console.log('net.sendLvl')
         $.ajax({
             url: '/LOAD-LVL',
             type: 'POST',
             success: function (data) {
-                console.log('Level loaded successfully')
+                console.log('level loaded')
                 main.loadLevel(data)
             },
             error: function (xhr, status, error) {
                 console.log(error)
                 console.log(xhr)
             },
+        })
+    }
+
+    async loadLvl3D(levelId) {
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                url: '/LOAD-LVL-3D',
+                //data: { id: levelId },
+                type: 'POST',
+                success: function (data) {
+                    console.log('level loaded')
+                    resolve(data)
+                },
+                error: function (xhr, status, error) {
+                    console.log(error)
+                    console.log(xhr)
+                },
+            })
         })
     }
 }

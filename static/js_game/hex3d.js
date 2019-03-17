@@ -1,18 +1,24 @@
 class Hex3D {
-    constructor() {
-        this.radius = settings.hexRadius
-        this.container = new THREE.Object3D() // kontener na obiekty 3D
-        this.wall = new THREE.Mesh(settings.wallGeo, settings.wallMat);
-        this.genHex()
-    }
-    genHex() {
+    constructor(doorIn, doorOut) {
+
+        var radius = settings.radius
+
+        var container = new THREE.Object3D()
+
+        var wall = new THREE.Mesh(settings.wallGeo, settings.wallMat);
+
         for (let i = 0; i < 6; i++) {
-            var side = this.wall.clone()
-            side.position.x = Math.cos(i * 60) * settings.radius
-            side.position.z = Math.sin(i * 60) * settings.radius
-            side.lookAt(this.container.position) // nakierowanie ścian na środek kontenera 3D 
-            this.container.add(side)
+            let side
+            if (i == doorIn || i == doorOut) {
+                side = new Door3D()
+            } else {
+                side = wall.clone()
+            }
+            side.position.x = Math.cos(i * Math.PI / 3) * Math.sqrt(3 * radius * radius) / 2
+            side.position.z = Math.sin(i * Math.PI / 3) * Math.sqrt(3 * radius * radius) / 2
+            side.lookAt(container.position) 
+            container.add(side)
         }
-        return this.container
+        return container
     }
 }

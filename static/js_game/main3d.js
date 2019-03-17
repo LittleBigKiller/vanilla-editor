@@ -1,8 +1,11 @@
-var hex
+var net
+var lvl
+var main = {}
 
 $(document).ready(function () {
     
-    var scene = new THREE.Scene()
+    scene = new THREE.Scene()
+    main.scene = scene
     
     var winWidth = $(window).width()
     var winHeight = $(window).height()
@@ -20,7 +23,7 @@ $(document).ready(function () {
     $("#fovSlider").val(45)
     $("#fovText").text(45)
 
-    var geometry = new THREE.BoxGeometry(50, 50, 50)
+    /* var geometry = new THREE.BoxGeometry(50, 50, 50)
     var material = new THREE.MeshNormalMaterial({
         color: 0x8888ff,
         side: THREE.DoubleSide,
@@ -29,7 +32,7 @@ $(document).ready(function () {
         opacity: 0.5
     })
     var cube = new THREE.Mesh(geometry, material)
-    scene.add(cube)
+    scene.add(cube) */
 
     $("#root").append(renderer.domElement)
     
@@ -42,21 +45,22 @@ $(document).ready(function () {
     var grid = new Grid(2000, 200)
     scene.add(grid.getGH())
 
-    var hex = new Hex3D()
-    scene.add(hex.genHex())
+    net = new Net()
+    lvl = new Level(0)
 
     var orbitControl = new THREE.OrbitControls(camera, renderer.domElement)
     orbitControl.addEventListener('change', function () {
         renderer.render(scene, camera)
     })
+
+    var axes = new THREE.AxesHelper(1000)
+    scene.add(axes)
+
+    main.scene = scene
     
     function render() {
         //w tym miejscu ustalamy wszelkie zmiany w projekcie (obrót, skalę, położenie obiektów)
         //np zmieniająca się wartość rotacji obiektu\
-
-        var axes = new THREE.AxesHelper(1000)
-        scene.add(axes)
-        cube.rotation.y += 0.01
         
         //wykonywanie funkcji bez końca ok 60 fps jeśli pozwala na to wydajność maszyny
         
@@ -77,4 +81,15 @@ $(document).ready(function () {
     
     render()
 })
+
+main.addHexes = function() {
+    hexes = lvl.getHexTable()
+    console.log(hexes)
+    for (let i in hexes) {
+        console.log(hexes[i])
+        main.scene.add(hexes[i])
+    }
+    //main.scene.add(hexes[0])
+    //main.scene.add(hexes[1])
+}
 
