@@ -1,6 +1,7 @@
 var net
 var lvl
 var main = {}
+//var ui = new 
 
 $(document).ready(function () {
     
@@ -22,17 +23,6 @@ $(document).ready(function () {
     
     $("#fovSlider").val(45)
     $("#fovText").text(45)
-
-    /* var geometry = new THREE.BoxGeometry(50, 50, 50)
-    var material = new THREE.MeshNormalMaterial({
-        color: 0x8888ff,
-        side: THREE.DoubleSide,
-        wireframe: false,
-        transparent: true, 
-        opacity: 0.5
-    })
-    var cube = new THREE.Mesh(geometry, material)
-    scene.add(cube) */
 
     $("#root").append(renderer.domElement)
     

@@ -4,7 +4,6 @@ class Door3D {
         var container = new THREE.Object3D()
         var doorPart = new THREE.Mesh(settings.doorPartGeo, settings.wallMat);
 
-        
         let part0 = doorPart.clone()
         part0.position.x = -radius * 0.3
         container.add(part0)

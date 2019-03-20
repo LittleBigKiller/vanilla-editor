@@ -107,7 +107,7 @@ class Main {
                 break
             }
         }
-        $('#data').html('<pre>' + JSON.stringify(main.pack, null, 2) + '</pre>')
+        $('#data').html(JSON.stringify(main.pack, null, 2))
         
     }
 
@@ -129,11 +129,11 @@ class Main {
                 main.hexes[dataPack.id].type = dataPack.type
                 main.hexes[dataPack.id].setup()
             }
-            $('#data').html('<pre>' + JSON.stringify(main.pack, null, 2) + '</pre>')
+            $('#data').html(JSON.stringify(main.pack, null, 2))
         } else {
             main.pack.size = 2
             main.createTiles()
-            $('#data').html('<pre>' + JSON.stringify(main.pack, null, 2) + '</pre>')
+            $('#data').html(JSON.stringify(main.pack, null, 2))
         }
     }
 }
