@@ -3,14 +3,13 @@ class Level {
         this.hexes = []
         this.pack
         net.loadLvl3D(levelId).then(function(value) {
-            console.log(value);
-            lvl.pack = value;
+            lvl.pack = value
             lvl.loadLevel()
         })
+        this.lights = []
     }
 
     loadLevel() {
-        console.log('lvl.loadLevel()')
         let data = this.pack.level
         let radius = settings.radius
         for (let i in data) {
@@ -23,16 +22,14 @@ class Level {
             }
             hex.position.y += settings.wallHeight / 2
             hex.rotation.y = Math.PI
+
             this.hexes.push(hex)
         }
-        console.log(lvl.hexes)
+        //console.log(lvl.hexes)
         main.addHexes()
     }
 
     getHexTable() {
         return this.hexes
     }
-    //tu wygeneruj meshe levelu na podstawie danych zwracanych z serwera
-    //i zwróć je do sceny
- 
- }
+}
