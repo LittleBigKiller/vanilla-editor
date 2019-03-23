@@ -39,10 +39,13 @@ class Net {
     }
 
     async loadLvl3D(levelId) {
+        console.warn(levelId)
         return new Promise(function (resolve, reject) {
             $.ajax({
                 url: '/LOAD-LVL-3D',
-                //data: { id: levelId },
+                data: {
+                    id: levelId,
+                },
                 type: 'POST',
                 success: function (data) {
                     console.log('level loaded')

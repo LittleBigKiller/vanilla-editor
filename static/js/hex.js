@@ -44,7 +44,6 @@ class Hex {
     setup() {
         this.object.css('transform', 'rotate(' + 60 * this.dirOut + 'deg)')
         this.object.children('.hexText').html('^<br>' + this.dirOut)
-        console.log(this.type)
         switch (this.type) {
             case 'wall':
                 this.object.children('.testHex').css('backgroundColor', '#3388dd')

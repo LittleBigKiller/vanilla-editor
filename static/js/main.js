@@ -20,6 +20,7 @@ class Main {
         $('#ctrl-genlvl').on('click', function () {
             main.pack.size = $('#ctrl-select').val()
             main.createTiles()
+            main.nextIn = -1
         })
         this.createTiles()
 

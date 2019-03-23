@@ -1,12 +1,13 @@
 class Level {
     constructor(levelId) {
+        console.error(levelId)
         this.hexes = []
         this.pack
         net.loadLvl3D(levelId).then(function(value) {
-            console.log(value);
-            lvl.pack = value;
+            lvl.pack = value
             lvl.loadLevel()
         })
+        this.lights = []
     }
 
     loadLevel() {
@@ -32,7 +33,4 @@ class Level {
     getHexTable() {
         return this.hexes
     }
-    //tu wygeneruj meshe levelu na podstawie danych zwracanych z serwera
-    //i zwróć je do sceny
- 
- }
+}

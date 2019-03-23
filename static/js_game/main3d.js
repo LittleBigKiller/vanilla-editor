@@ -37,6 +37,7 @@ $(document).ready(function () {
 
     net = new Net()
     lvl = new Level(0)
+    ui = new Ui()
 
     var orbitControl = new THREE.OrbitControls(camera, renderer.domElement)
     orbitControl.addEventListener('change', function () {

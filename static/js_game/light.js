@@ -1,22 +1,23 @@
 class Light {
-    constructor(intensity) {
-        this.intensity = intensity
-
+    constructor() {
         this.container = new THREE.Object3D()
+        this.container.name = 'light'
 
         this.init()
     }
 
     init() {
-        this.light = new THREE.SpotLight(this.color, this.initensity)
+        this.light = new THREE.PointLight(this.color, this.intensity)
         this.light.position.set(0, 0, 0)
         this.light.castShadow = true
-        this.light.shadowMapWidth = 4096;
-        this.light.shadowMapHeight = 4096;
+        this.light.shadow.mapSize.width = 4096;
+        this.light.shadow.mapSize.height = 4096;
 
         this.container.add(this.light)
 
-        this.light.lookAt(this.container.position)
+        this.container.setIntensity = function (inten) {
+            this.children[0].intensity = inten
+        }
 
         var geometry = new THREE.BoxGeometry(20, 20, 20)
         var material = new THREE.MeshBasicMaterial({
@@ -29,6 +30,7 @@ class Light {
     }
 
     getLight() {
+        lvl.lights.push(this.container)
         return this.container
     }
 

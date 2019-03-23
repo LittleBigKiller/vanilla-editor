@@ -1,13 +1,13 @@
 var settings = {
     radius: 100,
-    wallMat: new THREE.MeshNormalMaterial({
+    wallMat: new THREE.MeshPhongMaterial({
         color: 0x3388dd,
         side: THREE.DoubleSide,
         wireframe: false,
         transparent: true,
         opacity: 1
     }),
-    floorMat: new THREE.MeshNormalMaterial({
+    floorMat: new THREE.MeshPhongMaterial({
         color: 0xdd3388,
         side: THREE.DoubleSide,
         wireframe: false,

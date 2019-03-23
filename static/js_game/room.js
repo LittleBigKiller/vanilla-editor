@@ -28,13 +28,15 @@ class Room {
         switch (type) {
             case 'light':
                 let light = new Light().getLight()
-                light.position.y = settings.radius
+                light.position.y = 50
                 container.add(light)
             break
             case 'treasure':
                 let item = new Item()
                 item.position.y = settings.radius * 0.1 / 2
                 container.add(item)
+            break
+            case 'enemy':
             break
             case 'wall': default:
             break

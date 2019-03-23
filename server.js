@@ -39,15 +39,16 @@ app.post('/LOAD-LVL', function(req, res){
 })
 
 app.post('/LOAD-LVL-3D', function(req, res){
-    //if (req.body.id == undefined) req.body.id = counter
-    if (saved[counter] == undefined) {
+    console.log(req.body)
+    let id = parseInt(req.body.id)
+    if (saved[id] == undefined) {
         res.send({size: '2', level: []})
 
-        console.log('couldn\'t find level data')
+        console.log('couldn\'t find level data of Id: ' + id)
     } else {
-        res.send(saved[counter])
+        res.send(saved[id])
 
-        console.log('send editor data of Id: ' + counter)
+        console.log('send editor data of Id: ' + id)
     }
 })
 
