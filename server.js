@@ -39,11 +39,19 @@ app.post('/LOAD-LVL', function (req, res) {
     }
 })
 
+<<<<<<< HEAD
 app.post('/LOAD-LVL-3D', function (req, res) {
     console.log(req.body)
     let id = parseInt(req.body.id)
     if (saved[id] == undefined) {
         res.send(defaultLevel)
+=======
+app.post('/LOAD-LVL-3D', function(req, res){
+    console.log(req.body)
+    let id = parseInt(req.body.id)
+    if (saved[id] == undefined) {
+        res.send({size: '2', level: []})
+>>>>>>> 9dcde3a224e306ceb6096a6ecdc4752c5266fa06
 
         console.log('couldn\'t find level data of Id: ' + id)
     } else {

@@ -1,5 +1,6 @@
 class Level {
     constructor(levelId) {
+        console.error(levelId)
         this.hexes = []
         this.pack
         net.loadLvl3D(levelId).then(function(value) {
