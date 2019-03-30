@@ -12,14 +12,56 @@ $(document).ready(function () {
 
     var camera = new THREE.PerspectiveCamera(45, winWidth / winHeight, 0.1, 10000)
     var renderer = new THREE.WebGLRenderer()
+    
+    /* var orbitControl = new THREE.OrbitControls(camera, renderer.domElement)
+    orbitControl.addEventListener('change', function () {
+        renderer.render(scene, camera)
+    }) */
+
+    //#region Camera Control Variables
+    var input = {
+        keyA : false,
+        keyD : false,
+    }
+    var camAngle = 0
+    var camPosMulti = 500
+    //#endregion
+
+    //#region Camera Control Inputs
+    $(document).keydown(function (e) {
+        switch (e.which) {
+            case 65:
+                input.keyA = true
+                break
+            case 68:
+                input.keyD = true
+                break
+            default:
+                break
+        }
+    })
+        
+    $(document).keyup(function (e) {
+        switch (e.which) {
+            case 65:
+                input.keyA = false
+                break
+            case 68:
+                input.keyD = false
+                break
+            default:
+                break
+        }
+    })
+    //#endregion
 
     renderer.setClearColor(0xAAAAAA)
     renderer.setSize(winWidth, winHeight)
 
     $("#root").append(renderer.domElement)
 
-    camera.position.set(500, 500, 500)
-    camera.lookAt(scene.position)
+    /* camera.position.set(500, 500, 500)
+    camera.lookAt(scene.position) */
 
     var grid = new Grid(2000, 200)
     scene.add(grid.getGH())
@@ -35,25 +77,6 @@ $(document).ready(function () {
     scene.add(marker.getCont())
 
     model = player.getModel()
-    /* model.loadModel(function (modeldata) {
-        //console.log("model został załadowany", modeldata)
-        scene.add(modeldata)
-
-        console.log(modeldata.children[0].geometry.animations)
-
-        console.log(modeldata)
-        //var box = new THREE.Box3().setFromObject(modeldata.meshModel);
-        //console.log(box.getSize().y)
-
-        for (var i = 0; i < modeldata.meshModel.animations.length; i++) {
-            console.log(modeldata.meshModel.animations[i].name)
-        }
-    }) */
-
-    var orbitControl = new THREE.OrbitControls(camera, renderer.domElement)
-    orbitControl.addEventListener('change', function () {
-        renderer.render(scene, camera)
-    })
 
     var axes = new THREE.AxesHelper(1000)
     scene.add(axes)
@@ -72,6 +95,22 @@ $(document).ready(function () {
     var dirVec = new THREE.Vector3(0, 0, 0)
 
     $(document).mousedown(function (e) {
+        movementTarget(e)
+
+        $(document).on('mousemove', function (e) {
+            movementTarget(e)
+        })
+    })
+    $(document).mouseup(function (e) {
+        $(document).off('mousemove')
+    })
+
+    var playerSpeed = settings.playerSpeed
+    var angle
+    var moveAnimDone = true
+    var standAnimDone = true
+
+    function movementTarget(e) {
         var raycaster = new THREE.Raycaster()
         var mouseVector = new THREE.Vector2()
 
@@ -82,6 +121,9 @@ $(document).ready(function () {
 
         if (inter.length > 0) {
             if (inter[0].object.name == "NAV-PLANE") {
+                if (e.type == 'mousedown')
+                    moveAnimDone = false
+
                 targetVec = inter[0].point
                 //console.log(targetVec)
                 targetVec.y = 0
@@ -99,43 +141,29 @@ $(document).ready(function () {
                 )
 
                 player.getMesh().rotation.y = angle + Math.PI
-
-                moveAnimDone = false
             }
         }
-    })
-
-    var playerSpeed = settings.playerSpeed
-    var angle
-    var moveAnimDone = true
-    var standAnimDone = true
-
-    function movementTarget() {
-        
     }
 
     function movePlayer() {
         if (player.getCont().position.clone().distanceTo(targetVec) > playerSpeed) {
             player.getCont().translateOnAxis(dirVec, playerSpeed)
-            camera.position.x = player.getCont().position.x
-            camera.position.z = player.getCont().position.z + 200
-            camera.position.y = player.getCont().position.y + 200
+            camera.position.x = player.getCont().position.x + camPosMulti * Math.sin(camAngle)
+            camera.position.z = player.getCont().position.z + camPosMulti * Math.cos(camAngle)
+            camera.position.y = player.getCont().position.y + 400
             camera.lookAt(player.getCont().position)
 
             if (!moveAnimDone) {
-                //console.log('move')
                 model.setAnimation('run')
                 moveAnimDone = true
                 standAnimDone = false
             }
-        } else  {
-            //console.log('lmao')
-            player.getCont().position.setX(targetVec.x)
+        } else {
+            /* player.getCont().position.setX(targetVec.x)
             player.getCont().position.setY(targetVec.y)
-            player.getCont().position.setZ(targetVec.z)
+            player.getCont().position.setZ(targetVec.z) */
 
             if (!standAnimDone) {
-                //console.log('stand')
                 model.setAnimation('stand')
                 standAnimDone = true
                 moveAnimDone = false
@@ -143,7 +171,25 @@ $(document).ready(function () {
         }
     }
 
+    function cameraControls() {
+        if (input.keyA) {
+            camAngle -= 0.05
+            updateCamera()
+        }
+        if (input.keyD) {
+            camAngle += 0.05
+            updateCamera()
+        }
+    }
+
+    function updateCamera() {
+        camera.position.x = player.getCont().position.x + camPosMulti * Math.sin(camAngle)
+        camera.position.z = player.getCont().position.z + camPosMulti * Math.cos(camAngle)
+        camera.lookAt(player.getCont().position)
+    }
+
     function render() {
+        cameraControls()
         movePlayer()
 
         model.updateModel()
@@ -161,5 +207,10 @@ main.addHexes = function () {
     for (let i in hexes) {
         main.scene.add(hexes[i])
     }
+
+    marker.getCont().position.x = hexes[0].position.x
+    player.getCont().position.x = hexes[0].position.x
+    marker.getCont().position.z = hexes[0].position.z
+    player.getCont().position.z = hexes[0].position.z
 }
 

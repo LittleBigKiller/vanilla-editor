@@ -39,7 +39,6 @@ class Net {
     }
 
     async loadLvl3D(levelId) {
-        console.warn(levelId)
         return new Promise(function (resolve, reject) {
             $.ajax({
                 url: '/LOAD-LVL-3D',
