@@ -27,7 +27,6 @@ $(document).ready(function () {
     net = new Net()
     lvl = new Level(0)
     ui = new Ui()
-<<<<<<< HEAD
 
     player = new Player()
     scene.add(player.getCont())
@@ -50,8 +49,6 @@ $(document).ready(function () {
             console.log(modeldata.meshModel.animations[i].name)
         }
     }) */
-=======
->>>>>>> 9dcde3a224e306ceb6096a6ecdc4752c5266fa06
 
     var orbitControl = new THREE.OrbitControls(camera, renderer.domElement)
     orbitControl.addEventListener('change', function () {
