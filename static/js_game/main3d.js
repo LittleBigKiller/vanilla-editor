@@ -60,8 +60,8 @@ $(document).ready(function () {
 
     $("#root").append(renderer.domElement)
 
-    /* camera.position.set(500, 500, 500)
-    camera.lookAt(scene.position) */
+    camera.position.set(500, 500, 500)
+    camera.lookAt(scene.position)
 
     var grid = new Grid(2000, 200)
     scene.add(grid.getGH())
