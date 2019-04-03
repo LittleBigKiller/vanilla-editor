@@ -2,6 +2,8 @@ var net
 var lvl
 var main = {}
 var model
+var ally_table = []
+var player_following = []
 
 $(document).ready(function () {
     scene = new THREE.Scene()
@@ -12,7 +14,7 @@ $(document).ready(function () {
 
     var camera = new THREE.PerspectiveCamera(45, winWidth / winHeight, 0.1, 10000)
     var renderer = new THREE.WebGLRenderer()
-    
+
     /* var orbitControl = new THREE.OrbitControls(camera, renderer.domElement)
     orbitControl.addEventListener('change', function () {
         renderer.render(scene, camera)
@@ -20,8 +22,8 @@ $(document).ready(function () {
 
     //#region Camera Control Variables
     var input = {
-        keyA : false,
-        keyD : false,
+        keyA: false,
+        keyD: false,
     }
     var camAngle = 0
     var camPosMulti = 500
@@ -40,7 +42,7 @@ $(document).ready(function () {
                 break
         }
     })
-        
+
     $(document).keyup(function (e) {
         switch (e.which) {
             case 65:
@@ -76,8 +78,6 @@ $(document).ready(function () {
     marker = new Marker()
     scene.add(marker.getCont())
 
-    model = player.getModel()
-
     var axes = new THREE.AxesHelper(1000)
     scene.add(axes)
 
@@ -93,6 +93,38 @@ $(document).ready(function () {
 
     var targetVec = new THREE.Vector3(0, 0, 0)
     var dirVec = new THREE.Vector3(0, 0, 0)
+
+    $("#root").on('mousemove', function (e) {
+        console.log('REEEE')
+        var raycaster = new THREE.Raycaster()
+        var mouseVector = new THREE.Vector2()
+
+        mouseVector.x = (e.clientX / $(window).width()) * 2 - 1
+        mouseVector.y = -(e.clientY / $(window).height()) * 2 + 1
+        raycaster.setFromCamera(mouseVector, camera)
+        var inter = raycaster.intersectObjects(scene.children, true)
+
+        for (let i in ally_table) {
+            ally_table[i].lowlight()
+        }
+        $("#root").off('click')
+
+        if (inter.length > 0) {
+            if (inter[0].object.name == 'Ally') {
+                var obj = inter[0].object.parent.parent
+                for (let i in ally_table) {
+                    if (obj == ally_table[i].getCont()) {
+                        ally_table[i].highlight()
+                        $("#root").on('click', function () {
+                            if (player_following.indexOf(ally_table[i]) == -1) {
+                                player_following.push(ally_table[i])
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    })
 
     $(document).mousedown(function (e) {
         movementTarget(e)
@@ -125,16 +157,13 @@ $(document).ready(function () {
                     moveAnimDone = false
 
                 targetVec = inter[0].point
-                //console.log(targetVec)
                 targetVec.y = 0
                 dirVec = targetVec.clone().sub(player.getCont().position).normalize()
-                //console.log(dirVec)
 
                 marker.getCont().position.x = targetVec.x
                 marker.getCont().position.y = targetVec.y
                 marker.getCont().position.z = targetVec.z
 
-                //console.log(player.getCont().position.clone().distanceTo(targetVec))
                 angle = Math.atan2(
                     player.getCont().position.clone().x - targetVec.x,
                     player.getCont().position.clone().z - targetVec.z
@@ -154,19 +183,43 @@ $(document).ready(function () {
             camera.lookAt(player.getCont().position)
 
             if (!moveAnimDone) {
-                model.setAnimation('run')
+                player.getModel().setAnimation('run')
                 moveAnimDone = true
                 standAnimDone = false
             }
         } else {
-            /* player.getCont().position.setX(targetVec.x)
-            player.getCont().position.setY(targetVec.y)
-            player.getCont().position.setZ(targetVec.z) */
-
             if (!standAnimDone) {
-                model.setAnimation('stand')
+                player.getModel().setAnimation('stand')
                 standAnimDone = true
                 moveAnimDone = false
+            }
+        }
+    }
+
+    //function setFollowingTargets() {
+    //    
+    //}
+
+    function moveFollowing() {
+        for (let i in player_following) {
+            let moveAnim = false
+            let standAnim = true
+            let dirVec = player.getCont().position.clone().sub(player_following[i].getCont().position).normalize()
+            if (player_following[i].getCont().position.clone().distanceTo(player.getCont().position) > (50 + 50 * i)) {
+                console.log('THIS')
+                player_following[i].getCont().translateOnAxis(dirVec, playerSpeed)
+
+                if (!moveAnim) {
+                    player_following[i].getModel().setAnimation('run')
+                    moveAnim = true
+                    standAnim = false
+                }
+            } else {
+                if (!standAnim) {
+                    player_following[i].getModel().setAnimation('stand')
+                    standAnim = true
+                    moveAnim = false
+                }
             }
         }
     }
@@ -188,11 +241,41 @@ $(document).ready(function () {
         camera.lookAt(player.getCont().position)
     }
 
+    main.createAllies = function (amount) {
+        for (let i = 0; i < amount; i++) {
+            ally_table.push(new Ally())
+            scene.add(ally_table[i].getCont())
+        }
+        main.setupAllies()
+    }
+
+    main.setupAllies = function () {
+        for (let i in ally_table) {
+            if (hexes.length != 1) {
+                let hex_id = Math.floor(Math.random() * (hexes.length - 1) + 1)
+
+                ally_table[i].getCont().position.x = hexes[hex_id].position.x
+                ally_table[i].getCont().position.z = hexes[hex_id].position.z
+            } else {
+                ally_table[i].getCont().position.x = hexes[0].position.x
+                ally_table[i].getCont().position.z = hexes[0].position.z
+            }
+        }
+    }
+
+    function updateAllies() {
+        for (let i in ally_table) {
+            ally_table[i].getModel().updateModel()
+        }
+    }
+
     function render() {
         cameraControls()
         movePlayer()
+        moveFollowing()
 
-        model.updateModel()
+        player.getModel().updateModel()
+        updateAllies()
 
         requestAnimationFrame(render)
 
@@ -212,5 +295,8 @@ main.addHexes = function () {
     player.getCont().position.x = hexes[0].position.x
     marker.getCont().position.z = hexes[0].position.z
     player.getCont().position.z = hexes[0].position.z
+
+    main.createAllies(3)
+    //main.setupAllies()
 }
 

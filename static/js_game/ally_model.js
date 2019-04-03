@@ -1,4 +1,4 @@
-class Model {
+class AllyModel {
 
     constructor() {
         this.container = new THREE.Object3D()
@@ -11,7 +11,7 @@ class Model {
         var klasa = this
 
         var modelMat = new THREE.MeshBasicMaterial({
-            map: new THREE.TextureLoader().load("models/combined.png"),
+            map: new THREE.TextureLoader().load("models/ally0.png"),
             morphTargets: true
         })
 
@@ -19,7 +19,7 @@ class Model {
 
         var meshModel
 
-        loader.load('models/combined.js', function (geo) {
+        loader.load('models/ally0.js', function (geo) {
             meshModel = new THREE.Mesh(geo, modelMat)
             meshModel.name = 'test'
             meshModel.rotation.y = Math.PI / 2
@@ -30,6 +30,8 @@ class Model {
             klasa.mixer.clipAction('stand').play()
 
             klasa.container.add(meshModel)
+
+            meshModel.name = 'Ally'
 
             callback(klasa.container)
         })
@@ -44,7 +46,6 @@ class Model {
 
     setAnimation(animName) {
         this.mixer.uncacheRoot(this.mixer.getRoot())
-        //this.mixer.stopAllAction()
         this.mixer.clipAction(animName).play();
     }
 

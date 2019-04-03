@@ -1,13 +1,8 @@
-class Player {
+class Ally {
     constructor() {
         this.container = new THREE.Object3D()
-        this.model = new PlayerModel()
-
-        let geo = new THREE.BoxGeometry(20, 20, 20)
-        let mat = new THREE.MeshBasicMaterial({
-            color: 0x0000ff,
-            wireframe: true
-        })
+        this.model = new AllyModel()
+        this.ring = new Ring()
 
         let klasa = this
 
@@ -19,6 +14,10 @@ class Player {
             klasa.player.add(klasa.axes)
             klasa.axes.position.y = 10
         })
+        this.container.add(this.ring.getCont())
+        this.container.name = 'Ally'
+
+        this.lowlight()
     }
     
     getCont() {
@@ -31,5 +30,17 @@ class Player {
 
     getModel() {
         return this.model
+    }
+
+    highlight() {
+        this.ring.getCont().visible = true
+    }
+
+    lowlight() {
+        this.ring.getCont().visible = false
+    }
+
+    setRingColor(color) {
+        this.ring.changeColor(color)
     }
 }

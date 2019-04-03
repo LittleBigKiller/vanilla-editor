@@ -37,7 +37,10 @@ class Room {
             break
             case 'enemy':
             break
-            case 'wall': default:
+            case 'wall':
+                
+            break
+            default:
             break
         }
 
