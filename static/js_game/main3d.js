@@ -13,7 +13,10 @@ $(document).ready(function () {
     var winHeight = $(window).height()
 
     var camera = new THREE.PerspectiveCamera(45, winWidth / winHeight, 0.1, 10000)
-    var renderer = new THREE.WebGLRenderer()
+    var renderer = new THREE.WebGLRenderer({ antialias: true })
+    renderer.setClearColor(0xAAAAAA)
+    renderer.setSize(winWidth, winHeight)
+    //renderer.setPixelRatio(2)
 
     /* var orbitControl = new THREE.OrbitControls(camera, renderer.domElement)
     orbitControl.addEventListener('change', function () {
@@ -57,10 +60,7 @@ $(document).ready(function () {
     })
     //#endregion
 
-    renderer.setClearColor(0xAAAAAA)
-    renderer.setSize(winWidth, winHeight)
-
-    $("#root").append(renderer.domElement)
+    $('#root').append(renderer.domElement)
 
     camera.position.set(500, 500, 500)
     camera.lookAt(scene.position)
@@ -94,8 +94,7 @@ $(document).ready(function () {
     var targetVec = new THREE.Vector3(0, 0, 0)
     var dirVec = new THREE.Vector3(0, 0, 0)
 
-    $("#root").on('mousemove', function (e) {
-        console.log('REEEE')
+    $(document).on('mousemove', function (e) {
         var raycaster = new THREE.Raycaster()
         var mouseVector = new THREE.Vector2()
 
@@ -107,7 +106,7 @@ $(document).ready(function () {
         for (let i in ally_table) {
             ally_table[i].lowlight()
         }
-        $("#root").off('click')
+        $(document).off('click')
 
         if (inter.length > 0) {
             if (inter[0].object.name == 'Ally') {
@@ -115,9 +114,11 @@ $(document).ready(function () {
                 for (let i in ally_table) {
                     if (obj == ally_table[i].getCont()) {
                         ally_table[i].highlight()
-                        $("#root").on('click', function () {
-                            if (player_following.indexOf(ally_table[i]) == -1) {
-                                player_following.push(ally_table[i])
+                        $(document).on('click', function () {
+                            if (ally_table[i].getCont().position.clone().distanceTo(player.getCont().position) < 150) {
+                                if (player_following.indexOf(ally_table[i]) == -1) {
+                                    player_following.push(ally_table[i])
+                                }
                             }
                         })
                     }
@@ -126,15 +127,15 @@ $(document).ready(function () {
         }
     })
 
-    $(document).mousedown(function (e) {
+    $('#root').mousedown(function (e) {
         movementTarget(e)
 
-        $(document).on('mousemove', function (e) {
+        $('#root').on('mousemove', function (e) {
             movementTarget(e)
         })
     })
-    $(document).mouseup(function (e) {
-        $(document).off('mousemove')
+    $('#root').mouseup(function (e) {
+        $('#root').off('mousemove')
     })
 
     var playerSpeed = settings.playerSpeed
@@ -190,22 +191,18 @@ $(document).ready(function () {
         }
     }
 
-    //function setFollowingTargets() {
-    //    
-    //}
-
     function moveFollowing() {
         for (let i in player_following) {
+            let angle = Math.atan2(
+                player_following[i].getCont().position.clone().x - targetVec.x,
+                player_following[i].getCont().position.clone().z - targetVec.z
+            )
+
+            player_following[i].getMesh().rotation.y = angle + Math.PI
+
             let dirVec = player.getCont().position.clone().sub(player_following[i].getCont().position).normalize()
             if (player_following[i].getCont().position.clone().distanceTo(player.getCont().position) > (50 + 50 * i)) {
-                player_following[i].getCont().translateOnAxis(dirVec, playerSpeed * 4 / 5)
-
-                let angle = Math.atan2(
-                    player_following[i].getCont().position.clone().x - targetVec.x,
-                    player_following[i].getCont().position.clone().z - targetVec.z
-                )
-
-                player_following[i].getMesh().rotation.y = angle + Math.PI
+                player_following[i].getCont().translateOnAxis(dirVec, playerSpeed * 9 / 10)
 
                 if (player_following[i].getModel().animname != 'run') {
                     player_following[i].getModel().setAnimation('run')

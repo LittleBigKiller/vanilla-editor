@@ -15,7 +15,7 @@ class Player {
             klasa.player = modeldata
             klasa.container.add(klasa.player)
 
-            klasa.axes = new THREE.AxesHelper(50)
+            klasa.axes = new THREE.AxesHelper(20)
             klasa.player.add(klasa.axes)
             klasa.axes.position.y = 10
         })
