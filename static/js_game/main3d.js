@@ -139,8 +139,6 @@ $(document).ready(function () {
 
     var playerSpeed = settings.playerSpeed
     var angle
-    var moveAnimDone = true
-    var standAnimDone = true
 
     function movementTarget(e) {
         var raycaster = new THREE.Raycaster()
@@ -182,16 +180,12 @@ $(document).ready(function () {
             camera.position.y = player.getCont().position.y + 400
             camera.lookAt(player.getCont().position)
 
-            if (!moveAnimDone) {
+            if (player.getModel().animname != 'run') {
                 player.getModel().setAnimation('run')
-                moveAnimDone = true
-                standAnimDone = false
             }
         } else {
-            if (!standAnimDone) {
+            if (player.getModel().animname != 'stand') {
                 player.getModel().setAnimation('stand')
-                standAnimDone = true
-                moveAnimDone = false
             }
         }
     }
@@ -202,23 +196,23 @@ $(document).ready(function () {
 
     function moveFollowing() {
         for (let i in player_following) {
-            let moveAnim = false
-            let standAnim = true
             let dirVec = player.getCont().position.clone().sub(player_following[i].getCont().position).normalize()
             if (player_following[i].getCont().position.clone().distanceTo(player.getCont().position) > (50 + 50 * i)) {
-                console.log('THIS')
-                player_following[i].getCont().translateOnAxis(dirVec, playerSpeed)
+                player_following[i].getCont().translateOnAxis(dirVec, playerSpeed * 4 / 5)
 
-                if (!moveAnim) {
+                let angle = Math.atan2(
+                    player_following[i].getCont().position.clone().x - targetVec.x,
+                    player_following[i].getCont().position.clone().z - targetVec.z
+                )
+
+                player_following[i].getMesh().rotation.y = angle + Math.PI
+
+                if (player_following[i].getModel().animname != 'run') {
                     player_following[i].getModel().setAnimation('run')
-                    moveAnim = true
-                    standAnim = false
                 }
             } else {
-                if (!standAnim) {
+                if (player_following[i].getModel().animname != 'stand') {
                     player_following[i].getModel().setAnimation('stand')
-                    standAnim = true
-                    moveAnim = false
                 }
             }
         }

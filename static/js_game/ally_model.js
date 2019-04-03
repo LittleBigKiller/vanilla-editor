@@ -37,6 +37,7 @@ class AllyModel {
         })
 
         this.meshModel = meshModel
+        this.animname = 'stand'
     }
 
     updateModel() {
@@ -45,6 +46,7 @@ class AllyModel {
     }
 
     setAnimation(animName) {
+        this.animname = animName
         this.mixer.uncacheRoot(this.mixer.getRoot())
         this.mixer.clipAction(animName).play();
     }

@@ -35,6 +35,7 @@ class PlayerModel {
         })
 
         this.meshModel = meshModel
+        this.animname = 'stand'
     }
 
     updateModel() {
@@ -43,8 +44,8 @@ class PlayerModel {
     }
 
     setAnimation(animName) {
+        this.animname = animName
         this.mixer.uncacheRoot(this.mixer.getRoot())
-        //this.mixer.stopAllAction()
         this.mixer.clipAction(animName).play();
     }
 
