@@ -52,10 +52,13 @@ class Hex {
                 this.object.children('.testHex').css('backgroundColor', '#dd3333')
             break
             case 'treasure':
-                this.object.children('.testHex').css('backgroundColor', '#88dd33')
+                this.object.children('.testHex').css('backgroundColor', '#dd8833')
             break
             case 'light':
                 this.object.children('.testHex').css('backgroundColor', '#dddd33')
+            break
+            case 'ally':
+                this.object.children('.testHex').css('backgroundColor', '#88dd33')
             break
         }
     }

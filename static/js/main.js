@@ -6,7 +6,7 @@ class Main {
         this.pack = {}
         this.pack.size = $('#ctrl-select').val()
         this.pack.level = []
-        this.type  = 'wall'
+        this.type = 'wall'
         this.hexes = []
         this.nextIn = -1
         this.init()
@@ -15,7 +15,7 @@ class Main {
     init() {
         this.ctrlsInit()
     }
-    
+
     ctrlsInit() {
         $('#ctrl-genlvl').on('click', function () {
             main.pack.size = $('#ctrl-select').val()
@@ -24,21 +24,21 @@ class Main {
         })
         this.createTiles()
 
-        $('#ctrl-send').on('click', function() {
+        $('#ctrl-send').on('click', function () {
             main.sendLevel()
         })
 
-        $('#ctrl-load').on('click', function() {
+        $('#ctrl-load').on('click', function () {
             net.loadLvl()
         })
 
-        $('#ctrl-types').children().on('click', function() {
-            main.type  = this.innerHTML
+        $('#ctrl-types').children().on('click', function () {
+            main.type = this.innerHTML
             main.clearTypes()
             this.className = 'active'
         })
 
-        $('#ctrl-rungame').on('click', function() {
+        $('#ctrl-rungame').on('click', function () {
             window.location = '/game'
         })
     }
@@ -82,22 +82,25 @@ class Main {
         this.hex.dirOut += 1
         if (this.hex.dirOut > 5) {
             this.hex.dirOut = 0
-        }    
+        }
         this.style.transform = 'rotate(' + 60 * this.hex.dirOut + 'deg)'
         this.children[3].innerHTML = '^<br>' + this.hex.dirOut
         switch (main.type) {
             case 'wall':
                 $(this).children('.testHex').css('backgroundColor', '#3388dd')
-            break
+                break
             case 'enemy':
                 $(this).children('.testHex').css('backgroundColor', '#dd3333')
-            break
+                break
             case 'treasure':
-                $(this).children('.testHex').css('backgroundColor', '#88dd33')
-            break
+                $(this).children('.testHex').css('backgroundColor', '#dd8833')
+                break
             case 'light':
                 $(this).children('.testHex').css('backgroundColor', '#dddd33')
-            break
+                break
+            case 'ally':
+                $(this).children('.testHex').css('backgroundColor', '#88dd33')
+                break
         }
         main.nextIn = (this.hex.dirOut + 3) % 6
         for (let i in main.pack.level) {
@@ -109,7 +112,7 @@ class Main {
             }
         }
         $('#data').html(JSON.stringify(main.pack, null, 2))
-        
+
     }
 
     sendLevel() {

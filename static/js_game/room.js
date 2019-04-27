@@ -44,6 +44,8 @@ class Room {
             break
         }
 
+        container.roomType = type
+
         return container
     }
 }

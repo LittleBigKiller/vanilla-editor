@@ -232,24 +232,15 @@ $(document).ready(function () {
         camera.lookAt(player.getCont().position)
     }
 
-    main.createAllies = function (amount) {
-        for (let i = 0; i < amount; i++) {
-            ally_table.push(new Ally())
-            scene.add(ally_table[i].getCont())
-        }
-        main.setupAllies()
-    }
+    main.createAllies = function () {
+        for (let i in hexes) {
+            if (hexes[i].roomType == 'ally') {
+                let tempAlly = new Ally()
+                ally_table.push(tempAlly)
+                scene.add(tempAlly.getCont())
 
-    main.setupAllies = function () {
-        for (let i in ally_table) {
-            if (hexes.length != 1) {
-                let hex_id = Math.floor(Math.random() * (hexes.length - 1) + 1)
-
-                ally_table[i].getCont().position.x = hexes[hex_id].position.x
-                ally_table[i].getCont().position.z = hexes[hex_id].position.z
-            } else {
-                ally_table[i].getCont().position.x = hexes[0].position.x
-                ally_table[i].getCont().position.z = hexes[0].position.z
+                tempAlly.getCont().position.x = hexes[i].position.x
+                tempAlly.getCont().position.z = hexes[i].position.z
             }
         }
     }
@@ -287,7 +278,6 @@ main.addHexes = function () {
     marker.getCont().position.z = hexes[0].position.z
     player.getCont().position.z = hexes[0].position.z
 
-    main.createAllies(3)
-    //main.setupAllies()
+    main.createAllies()
 }
 
