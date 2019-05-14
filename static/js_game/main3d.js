@@ -75,11 +75,14 @@ $(document).ready(function () {
     player = new Player()
     scene.add(player.getCont())
 
-    marker = new Marker()
+    marker = new Marker(0xFF0000)
     scene.add(marker.getCont())
 
-    var axes = new THREE.AxesHelper(1000)
-    scene.add(axes)
+    colMarker = new Marker(0xFFFF00)
+    scene.add(colMarker.getCont())
+
+    /* var axes = new THREE.AxesHelper(1000)
+    scene.add(axes) */
 
     main.scene = scene
 
@@ -174,7 +177,7 @@ $(document).ready(function () {
     }
 
     function movePlayer() {
-        if (player.getCont().position.clone().distanceTo(targetVec) > playerSpeed) {
+        if (player.getCont().position.clone().distanceTo(targetVec) > playerSpeed && castFromPlayer()) {
             player.getCont().translateOnAxis(dirVec, playerSpeed)
             camera.position.x = player.getCont().position.x + camPosMulti * Math.sin(camAngle)
             camera.position.z = player.getCont().position.z + camPosMulti * Math.cos(camAngle)
@@ -188,6 +191,29 @@ $(document).ready(function () {
             if (player.getModel().animname != 'stand') {
                 player.getModel().setAnimation('stand')
             }
+        }
+    }
+
+    function castFromPlayer () {
+        if (player.getMesh()) {
+            let hexes = lvl.getHexTable()
+            var raycaster = new THREE.Raycaster()
+            var ray = new THREE.Ray(player.getCont().position.clone(), player.getMesh().getWorldDirection(new THREE.Vector3(1, 1, 1)))
+
+            ray.origin.y += 10
+            raycaster.ray = ray
+
+            var inters = raycaster.intersectObjects(hexes, true)
+
+            if (inters[0]) {
+                colMarker.getCont().position.x = inters[0].point.x
+                colMarker.getCont().position.y = inters[0].point.y
+                colMarker.getCont().position.z = inters[0].point.z
+
+                if (inters[0].distance < playerSpeed * 3) return false
+            }
+
+            return true
         }
     }
 
@@ -233,6 +259,7 @@ $(document).ready(function () {
     }
 
     main.createAllies = function () {
+        let hexes = lvl.getHexTable()
         for (let i in hexes) {
             if (hexes[i].roomType == 'ally') {
                 let tempAlly = new Ally()
@@ -251,7 +278,11 @@ $(document).ready(function () {
         }
     }
 
+    let clock = new THREE.Clock()
+
     function render() {
+        console.log(clock.getDelta())
+
         cameraControls()
         movePlayer()
         moveFollowing()
@@ -268,7 +299,7 @@ $(document).ready(function () {
 })
 
 main.addHexes = function () {
-    hexes = lvl.getHexTable()
+    let hexes = lvl.getHexTable()
     for (let i in hexes) {
         main.scene.add(hexes[i])
     }

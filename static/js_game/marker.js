@@ -1,10 +1,10 @@
 class Marker {
-    constructor() {
+    constructor(color) {
         this.container = new THREE.Object3D()
 
         let geo = new THREE.SphereGeometry( 5, 8, 2 )
         let mat = new THREE.MeshBasicMaterial({
-            color: 0xff0000,
+            color: color,
             wireframe: true
         })
 

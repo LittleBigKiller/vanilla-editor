@@ -21,6 +21,7 @@ class Room {
             side.position.x = Math.cos(i * Math.PI / 3) * Math.sqrt(3 * radius * radius) / 2
             side.position.z = Math.sin(i * Math.PI / 3) * Math.sqrt(3 * radius * radius) / 2
             side.lookAt(container.position) 
+            side.name = 'WALL'
             container.add(side)
         }
 
