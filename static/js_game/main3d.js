@@ -215,6 +215,7 @@ $(document).ready(function () {
 
             return true
         }
+        return false
     }
 
     function moveFollowing() {
@@ -278,11 +279,7 @@ $(document).ready(function () {
         }
     }
 
-    let clock = new THREE.Clock()
-
     function render() {
-        console.log(clock.getDelta())
-
         cameraControls()
         movePlayer()
         moveFollowing()
