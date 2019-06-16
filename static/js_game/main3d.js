@@ -118,7 +118,7 @@ $(document).ready(function () {
                     if (obj == ally_table[i].getCont()) {
                         ally_table[i].highlight()
                         $(document).on('click', function () {
-                            if (ally_table[i].getCont().position.clone().distanceTo(player.getCont().position) < 150) {
+                            if (ally_table[i].getCont().position.clone().distanceTo(player.getCont().position) < settings.radius) {
                                 if (player_following.indexOf(ally_table[i]) == -1) {
                                     player_following.push(ally_table[i])
                                 }
